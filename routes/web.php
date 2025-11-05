@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,12 +31,53 @@ Route::get('/login', function () {
     return view('screens.auth.web.login');
 });
 
-Route::get('/register', function () {
-    return view('screens.auth.web.register');
-});
+Route::get('/register', [AuthController::class , 'registerView'])->name('register');
+// Route::get('/register', function () {
+//     return view('screens.auth.web.register');
+// });
+
+Route::post('/register', [AuthController::class , 'register'])->name('register');
+
+
 
 Route::get('/forgot-password', function () {
     return view('screens.auth.web.forget-password');
+});
+
+Route::get('/customer-dashboard', function () {
+    return view('screens.web.dashboard.dashboard');
+});
+
+Route::get('/customer-orders', function () {
+    return view('screens.web.dashboard.order');
+});
+
+Route::get('/customer-address', function () {
+    return view('screens.web.dashboard.address');
+});
+
+Route::get('/customer-profile', function () {
+    return view('screens.web.dashboard.profile-details');
+});
+
+Route::get('/blogs', function () {
+    return view('screens.web.blog.blogs');
+});
+
+Route::get('/blog-detail', function () {
+    return view('screens.web.blog.blog-single');
+});
+
+Route::get('/about', function () {
+    return view('screens.web.about');
+});
+
+Route::get('/contact', function () {
+    return view('screens.web.contact');
+});
+
+Route::get('/faq', function () {
+    return view('screens.web.faq');
 });
 
 

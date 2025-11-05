@@ -11,22 +11,35 @@
             <img src="images/logo.png" alt="">
           </a>
           <h2 class="text-center">Create Your Account</h2>
-          <form class="text-left clearfix" action="index.html">
+          <form class="text-left clearfix" action="{{ route('register') }}" method="POST">
+            @csrf
             <div class="form-group">
-              <input type="text" class="form-control"  placeholder="First Name">
+              <input type="text" name="first_name" value="{{ old('first_name') }}" class="form-control"  placeholder="First Name">
+            </div>
+            @error('first_name')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+            <div class="form-group">
+              <input type="text" name="last_name" value="{{ old('last_name') }}" class="form-control"  placeholder="Last Name">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control"  placeholder="Last Name">
+              <input type="email" name="email" value="{{ old('email') }}" class="form-control"  placeholder="Email">
             </div>
+            @error('email')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
             <div class="form-group">
-              <input type="text" class="form-control"  placeholder="Username">
+              <input type="password" name="password" class="form-control"  placeholder="Password">
             </div>
+            @error('password')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
             <div class="form-group">
-              <input type="email" class="form-control"  placeholder="Email">
+              <input type="password" name="password_confirmation" class="form-control"  placeholder="Confirm Password">
             </div>
-            <div class="form-group">
-              <input type="password" class="form-control"  placeholder="Password">
-            </div>
+            @error('password_confirmation')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
             <div class="text-center">
               <button type="submit" class="btn btn-main text-center">Sign In</button>
             </div>
