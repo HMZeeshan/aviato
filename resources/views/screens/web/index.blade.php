@@ -2,6 +2,7 @@
 
 @section('content')
 <!-- Start Top Header Bar -->
+{{-- @dd(auth()->user()) --}}
 <section class="top-header">
 	<div class="container">
 		<div class="row">
@@ -9,7 +10,18 @@
 				<div class="contact-number">
 					<i class="tf-ion-ios-telephone"></i>
 					<span>0129- 12323-123123</span>
+
 				</div>
+                @auth
+				<div class="contact-number">
+					<i class="tf-ion-ios-telephone"></i>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit">Logout</button>
+                    </form>
+
+				</div>
+                @endauth
 			</div>
 			<div class="col-md-4 col-xs-12 col-sm-4">
 				<!-- Site Logo -->

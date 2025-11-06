@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('screens.web.index');
-});
+})->name('index');
 
 Route::get('/shop', function () {
     return view('screens.web.shop.shop');
@@ -26,19 +26,19 @@ Route::get('/checkout', function () {
 Route::get('/thankyou', function () {
     return view('screens.web.checkout.confirmation');
 });
+Route::controller(AuthController::class)->group(function () {
+    Route::middleware('guest')->group(function () {
+        Route::get('/login',  'loginView')->name('login');
+        Route::post('/login',  'login')->name('login');
 
-Route::get('/login', function () {
-    return view('screens.auth.web.login');
+        Route::get('/register',  'registerView')->name('register');
+        Route::post('/register',  'register')->name('register');
+    });
+    Route::middleware('auth')->group(function () {
+        Route::post('/logout',  'logout')->name('logout');
+    });
+    // Route::post('/logout',  'logout')->middleware('auth')->name('logout');
 });
-
-Route::get('/register', [AuthController::class , 'registerView'])->name('register');
-// Route::get('/register', function () {
-//     return view('screens.auth.web.register');
-// });
-
-Route::post('/register', [AuthController::class , 'register'])->name('register');
-
-
 
 Route::get('/forgot-password', function () {
     return view('screens.auth.web.forget-password');
@@ -79,5 +79,3 @@ Route::get('/contact', function () {
 Route::get('/faq', function () {
     return view('screens.web.faq');
 });
-
-
