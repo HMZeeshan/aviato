@@ -12,7 +12,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::all();
+
+        return view('screens.web.shop.shop',['products' => $products]);
+        // return view('screens.web.shop.shop',compact('products'));
+        // return view('screens.web.shop.shop',get_defined_vars());
+
     }
 
     /**

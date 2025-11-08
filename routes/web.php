@@ -1,14 +1,18 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('screens.web.index');
 })->name('index');
 
-Route::get('/shop', function () {
-    return view('screens.web.shop.shop');
+// Route::get('/shop', function () {
+//     return view('screens.web.shop.shop');
+// });
+Route::controller(ProductController::class)->group(function(){
+    Route::get('/shop','index')->name('shop');
 });
 
 Route::get('/product', function () {

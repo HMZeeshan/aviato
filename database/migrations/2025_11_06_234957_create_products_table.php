@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained();
             $table->string('name');
-            $table->string('image');
-            $table->string('description');
-            $table->float('price',2);
+            $table->string('image')->nullable();
+            $table->string('description')->nullable();
+            $table->float('price',2)->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
