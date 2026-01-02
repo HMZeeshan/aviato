@@ -372,6 +372,7 @@
                 </div>
                 <div class="col-md-9">
                     <div class="row">
+                        {{-- @dd($products->total()) --}}
                         @foreach ($products as $product)
                             <div class="col-md-4">
                                 <div class="product-item">
@@ -403,9 +404,9 @@
                                 </div>
                             </div>
                         @endforeach
-
-
-
+                        <div class="col-md-12">
+                        {{ $products->links() }}
+                        </div>
                         <!-- Modal -->
                         <div class="modal product-modal fade" id="product-modal">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">

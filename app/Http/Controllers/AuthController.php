@@ -27,7 +27,7 @@ class AuthController extends Controller
         if(auth()->check()){
             return redirect()->route('index');
         }
-        return redirect()->route('login');
+        return redirect()->route(route: 'login');
 
     }
 
@@ -46,7 +46,7 @@ class AuthController extends Controller
             return redirect()->route('index');
         }
 
-        return back()->withErrors(provider: [
+        return back()->withErrors( [
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
 
