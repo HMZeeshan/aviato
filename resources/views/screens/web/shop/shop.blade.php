@@ -405,7 +405,7 @@
                             </div>
                         @endforeach
                         <div class="col-md-12">
-                        {{ $products->links() }}
+                        {{ $products->onEachSide(3)->links() }}
                         </div>
                         <!-- Modal -->
                         <div class="modal product-modal fade" id="product-modal">

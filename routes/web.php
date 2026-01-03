@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('screens.web.index');
@@ -44,9 +47,63 @@ Route::controller(AuthController::class)->group(function () {
     // Route::post('/logout',  'logout')->middleware('auth')->name('logout');
 });
 
+// Route::get('/forgot-password', function () {
+//     return view('screens.auth.web.forget-password');
+// });
+
+/*
+|--------------------------------------------------------------------------
+| Forgot Password
+|--------------------------------------------------------------------------
+*/
 Route::get('/forgot-password', function () {
     return view('screens.auth.web.forget-password');
-});
+})->middleware('guest')->name('password.request');
+
+Route::post('/forgot-password', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email|exists:users,email',
+    ]);
+
+    $status = Password::sendResetLink(
+        $request->only('email')
+    );
+
+    return $status === Password::RESET_LINK_SENT
+        ? back()->with('status', 'Password reset link has been sent to your email.')
+        : back()->withErrors(['email' => 'Unable to send reset link']);
+})->middleware('guest')->name('password.email');
+
+
+/*
+|--------------------------------------------------------------------------
+| Reset Password
+|--------------------------------------------------------------------------
+*/
+Route::get('/reset-password/{token}', function ($token) {
+    return view('screens.auth.web.reset-password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
+Route::post('/reset-password', function (Request $request) {
+
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email|exists:users,email',
+        'password' => 'required|min:6|confirmed',
+    ]);
+
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->password = Hash::make($password);
+            $user->save();
+        }
+    );
+
+    return $status === Password::PASSWORD_RESET
+        ? redirect()->route('login')->with('status', 'Password reset successfully. Please login.')
+        : back()->withErrors(['email' => 'Invalid token or email']);
+})->middleware('guest')->name('password.update');
 
 Route::get('/customer-dashboard', function () {
     return view('screens.web.dashboard.dashboard');
